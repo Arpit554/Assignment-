@@ -1,9 +1,7 @@
 {
-  "version": 2,
-  "buildCommand": "cd frontend && npm install && npx expo export -p web",
-  "outputDirectory": "frontend/dist",
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
+  "buildCommand": "if [ -d \"frontend\" ]; then cd frontend && npx expo export -p web; else npx expo export -p web; fi",
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" }
   ]
 }
