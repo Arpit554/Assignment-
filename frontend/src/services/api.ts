@@ -1,7 +1,7 @@
 import { Competition, UserProfile } from '../types';
 
-// Fallback to local machine IP or localhost
-const BASE_URL = 'http://localhost:5000/api';
+// Dynamic backend API base URL with environment variable support for production deployments
+const BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'https://backend-liart-six-19.vercel.app/api';
 
 export const api = {
   // Get competition details with user context

@@ -3,26 +3,37 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 
 let mongod = null;
 
+let isConnected = false;
+
 const connectDB = async () => {
+  if (isConnected && mongoose.connection.readyState === 1) {
+    return;
+  }
+
   const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/feedants_competition';
   
   try {
-    console.log(`Attempting connection to MongoDB at: ${uri}`);
-    // Set 2.5s connection timeout so we fall back quickly if local MongoDB isn't running
+    console.log(`Connecting to MongoDB...`);
     await mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 2500,
+      serverSelectionTimeoutMS: 3000,
     });
-    console.log('✅ Connected to local/remote MongoDB database.');
+    isConnected = true;
+    console.log('✅ Connected to MongoDB database.');
   } catch (err) {
-    console.warn('⚠️ Could not connect to external MongoDB server. Starting embedded in-memory MongoDB server for seamless zero-config evaluation...');
+    if (process.env.VERCEL) {
+      console.warn('⚠️ Serverless environment without external MONGODB_URI. Operating with fallback response handlers.');
+      return;
+    }
+    console.warn('⚠️ Could not connect to external MongoDB server. Starting embedded in-memory MongoDB server for local development...');
     try {
+      const { MongoMemoryServer } = require('mongodb-memory-server');
       mongod = await MongoMemoryServer.create();
       const memUri = mongod.getUri();
       await mongoose.connect(memUri);
+      isConnected = true;
       console.log(`✅ In-Memory MongoDB running successfully at ${memUri}`);
     } catch (memErr) {
       console.error('❌ Failed to initialize MongoDB connection:', memErr.message);
-      process.exit(1);
     }
   }
 };
