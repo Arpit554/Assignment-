@@ -41,12 +41,12 @@ const seedDatabase = async () => {
       walletBalance: 80,
     });
 
-    // 2. Create the Classical Dance Competition
-    // Set dynamic dates based on year 2026 as per the mockup
-    const regDate = new Date('2026-08-10T23:50:00.000Z');
-    const subStartDate = new Date('2026-08-06T04:00:00.000Z');
-    const subEndDate = new Date('2026-08-30T23:55:00.000Z');
-    const resDate = new Date('2026-09-01T23:50:00.000Z');
+    // Set dynamic dates: registration closing in 30 hours (1 day 6 hours) so the countdown is active
+    const now = Date.now();
+    const regDate = new Date(now + (1000 * 60 * 60 * 30.5)); // ~1d 6h 30m
+    const subStartDate = new Date(now - (1000 * 60 * 60 * 24)); // started yesterday
+    const subEndDate = new Date(now + (1000 * 60 * 60 * 24 * 7)); // ends in 7 days
+    const resDate = new Date(now + (1000 * 60 * 60 * 24 * 9)); // results in 9 days
 
     const competition = await Competition.create({
       title: 'Feedants Classical Dance',

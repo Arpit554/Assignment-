@@ -4,30 +4,18 @@
     "slug": "feedants-competition-details",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#007A78"
-    },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#007A78"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png",
       "bundler": "metro"
-    },
-    "plugins": [
-      "expo-asset",
-      "expo-font"
-    ]
+    }
   }
 }
